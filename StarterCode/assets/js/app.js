@@ -2,7 +2,7 @@ const height = 600;
 const width = 1000;
 let chosenXAxis = 'healthcare'
 
-// margins
+// Margins
 const margin = {
   top: 50,
   right: 50,
@@ -10,15 +10,15 @@ const margin = {
   left:100
 };
 
-// chart area minus margins
+// Chart area
 const chartHeight = height - margin.top - margin.bottom;
 const chartWidth = width - margin.left - margin.right;
 
-// Create a color map for challenge
+// Create a color map 
 // In a production application typically is generated using a color scale
 const color_map = {'setosa': 'green', 'virginica':'red', 'versicolor':'blue'}
 
-// create svg container
+// Create a svg container
 const svg = d3.select('#chart').append('svg')
       .attr('height', height)
       .attr('width', width)
@@ -27,7 +27,7 @@ const svg = d3.select('#chart').append('svg')
       .attr('id', 'bar_chart');
 
 
-// shift everything over by the margins
+// Shift everything over using the margins
 const labelsGroup = svg.append('g')
     .attr('transform', `translate(${width / 2}, ${chartHeight+20})`);
 
@@ -119,7 +119,7 @@ d3.csv('/assets/data/data.csv')
         const yAxis_func = d3.axisLeft(yScale);
         const xAxis_func = d3.axisBottom(xScale);
 
-        // set x to the bottom of the chart
+        // Set x to the bottom of the chart
         let xAxis_g = svg.append('g')
             .attr('id', 'xaxis')
             .attr('transform', `translate(0, ${chartHeight})`)
@@ -136,23 +136,23 @@ d3.csv('/assets/data/data.csv')
         labelsGroup.selectAll('text')
             .on('click', function() {
 
-              // get value of selection
+              // Get value of the selection
               const value = d3.select(this).attr('value');
               console.log(value);
               if (value !== chosenXAxis) {
 
-                // replaces chosenXAxis with value
+                // Replaces chosenXAxis with value
                 chosenXAxis = value;
 
 
-                // functions here found above csv import
-                // updates x scale for new data
+                // Functions here found above csv import
+                // Updates x scale for new data
                 const xLinearScale = xScale_update(data, chosenXAxis);
 
-                // updates x axis with transition
+                // Updates x axis with transition
                 xAxis_g = renderAxes(xLinearScale, xAxis_g);
 
-                // updates circles with new x values
+                // Updates circles with new x values
                 UpdateBars(circleGroup, xLinearScale);
                 UpdateBars(textGroup, xLinearScale);
 
